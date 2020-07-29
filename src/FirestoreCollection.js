@@ -95,6 +95,7 @@ class FirestoreCollection extends Component {
     const { sort, limit, filter } = queryProps;
     let query = collectionRef;
 
+    console.log('FirestoreCollection:', sort);
     if (sort) {
       sort.split(',').forEach(sortItem => {
         const [field, order] = sortItem.split(':');
