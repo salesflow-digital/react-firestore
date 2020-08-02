@@ -8,6 +8,7 @@ class FirestoreDocument extends Component {
     children: PropTypes.func,
     render: PropTypes.func,
     firestore: PropTypes.object.isRequired,
+    skip: PropTypes.bool,
   };
 
   state = {
@@ -15,6 +16,7 @@ class FirestoreDocument extends Component {
     data: null,
     error: null,
     snapshot: null,
+    skip: false
   };
 
   componentDidMount() {
@@ -29,7 +31,10 @@ class FirestoreDocument extends Component {
     if (nextProps.path !== this.props.path) {
       this.handleUnsubscribe();
 
-      this.setState({ isLoading: true }, () => this.setupFirestoreListener());
+      const {skip} = this.props;
+      if (!skip) {
+        this.setState({ isLoading: true }, () => this.setupFirestoreListener());
+      }
     }
   }
 
