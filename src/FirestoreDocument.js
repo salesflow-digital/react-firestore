@@ -78,10 +78,14 @@ class FirestoreDocument extends Component {
       try {
         const documentData = snapshot.data();
 
-        newState.data = {
-          id: snapshot.id,
-          ...documentData,
-        };
+        if (!snapshot.exists){
+          newState.data = null;
+        } else {
+          newState.data = {
+            id: snapshot.id,
+            ...documentData,
+          };
+        }
       } catch (error) {
         newState.error = error;
       }
