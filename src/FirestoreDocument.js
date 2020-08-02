@@ -20,6 +20,10 @@ class FirestoreDocument extends Component {
   };
 
   componentDidMount() {
+    const {skip} = this.props;
+    if (skip){
+      return;
+    }
     this.setupFirestoreListener();
   }
 
@@ -28,13 +32,13 @@ class FirestoreDocument extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.path !== this.props.path) {
+    const {skip} = nextProps;
+    if (skip){
+      return;
+    }
+    if (nextProps.path !== this.props.path || skip !==this.props.skip) {
       this.handleUnsubscribe();
-
-      const {skip} = this.props;
-      if (!skip) {
-        this.setState({ isLoading: true }, () => this.setupFirestoreListener());
-      }
+      this.setState({ isLoading: true }, () => this.setupFirestoreListener());
     }
   }
 
